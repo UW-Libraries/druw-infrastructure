@@ -1,6 +1,6 @@
-# Vagrant-ansible-sufia
+# Vagrant-ansible-druw
 
-This repository should set up a development instance of Sufia v.7+ in a Vagrant virtualbox
+This repository should set up a development instance of UW Libraries' data repository built on Sufia v.7+ in a Vagrant virtualbox
 
 ## Prerequisites:
  - Vagrant
