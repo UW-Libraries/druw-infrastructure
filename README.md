@@ -19,7 +19,7 @@ and you should see 'centos/7' listed
 ## Clone this repo, then change to repo's directory
 `git clone git@bitbucket.org:uwlib/vagrant-ansible-druw.git`
 
-`cd vagrant-ansible-sufia`
+`cd vagrant-ansible-druw`
 
 ## Copy vars.yml.template to vars.yml.
 
