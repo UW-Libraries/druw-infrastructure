@@ -34,16 +34,16 @@ Edit application_home if you want it to install in someplace other than /home/va
 
 ## cd into /vagrant dir and run ansible playbook
 `cd /vagrant`   
-`ansible-playbook -i inventory playbook.yml`
+`ansible-playbook -i inventory druw.yml`
 
 * You will have to start the following commands manually. You will probably also have to hit enter to return your prompt after each service starts up.   
-`cd /home/vagrant/sufia`   
+`cd /home/vagrant/druw`   
 * Start development solr   
 `bundle exec solr_wrapper -d solr/config/ --collection_name hydra-development &`   
 * Start FCRepo - your fedora project instance   
 `bundle exec fcrepo_wrapper -p 8984 &`   
-* Start development rails server (needs to start as sudo until I figure out perms)   
-`sudo rails server -b 0.0.0.0`
+* Start development rails server   
+`rails server -b 0.0.0.0`
 
 ## Check Sufia is Running
 Open a browser and go to http://localhost:3000. The initial load will take a bit (you'll see activity in SSH window as the rails server processes the request).
