@@ -1,0 +1,4 @@
+project_name: druw
+application_home: "{{ druw_home }}"
+server_name: localhost
+passenger_ver: 5.0.24

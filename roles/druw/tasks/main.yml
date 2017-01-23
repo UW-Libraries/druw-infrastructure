@@ -40,13 +40,13 @@
             config.web_console.whitelisted_ips = '10.0.2.2'
           end
 
-  - name: Copy all templates in config file
-    command: "cp {{ druw_home }}/config/{{ item.src }} {{ druw_home }}/config/{{ item.dest }}"
-    with_items:
-        - { src: 'analytics.yml.template', dest: 'analytics.yml' }
-        - { src: 'blacklight.yml.template', dest: 'blacklight.yml' }
-        - { src: 'database.yml.template', dest: 'database.yml' }
-        - { src: 'fedora.yml.template', dest: 'fedora.yml' }
-        - { src: 'redis.yml.template', dest: 'redis.yml' }
-        - { src: 'solr.yml.template', dest: 'solr.yml' }
-        - { src: 'tinymce.yml.template', dest: 'tinymce.yml' }
+#  - name: Copy all templates in config file
+#    command: "cp {{ druw_home }}/config/{{ item.src }} {{ druw_home }}/config/{{ item.dest }}"
+#    with_items:
+#        - { src: 'analytics.yml.template', dest: 'analytics.yml' }
+#        - { src: 'blacklight.yml.template', dest: 'blacklight.yml' }
+#        - { src: 'database.yml.template', dest: 'database.yml' }
+#        - { src: 'fedora.yml.template', dest: 'fedora.yml' }
+#        - { src: 'redis.yml.template', dest: 'redis.yml' }
+#        - { src: 'solr.yml.template', dest: 'solr.yml' }
+#        - { src: 'tinymce.yml.template', dest: 'tinymce.yml' }
