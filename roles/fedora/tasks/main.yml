@@ -23,6 +23,12 @@
   become: yes
   template: src=tomcat.conf.j2 dest=/etc/tomcat/tomcat.conf backup=yes
 
+- name: change fedora.yml prod port to 8080
+  replace:
+    dest: "{{ druw_home }}/config/fedora.yml"
+    regexp: '127\.0\.0\.1:8984\/fedora\/rest'
+    replace: '127.0.0.1:8080/fedora/rest'
+
 - name: restart tomcat
   become: yes
   service: name=tomcat enabled=yes state=restarted

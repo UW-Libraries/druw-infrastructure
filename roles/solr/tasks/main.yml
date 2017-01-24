@@ -55,11 +55,11 @@
   become: yes
   service: name=solr enabled=yes state=restarted
 
-- name: Precompile for production
-  become: yes
+#- name: Precompile for production
+#  become: yes
   #become_user: solr
-  command: "cd /var/druw && RAILS_ENV=production bundle exec rake assets:precompile"
+#  command: "cd /var/druw && RAILS_ENV=production bundle exec rake assets:precompile"
   #command: "touch /var/druw/blah"
   #args:
   #  chdir: "/var/druw"
-  tags: precompile
+#  tags: precompile
