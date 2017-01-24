@@ -18,7 +18,7 @@
 
 - name: install solr as a service using script
   become: yes
-  command: bash ./install_solr_service.sh -n /tmp/solr-{{ solr_ver }}.tgz chdir=/tmp/solr-{{ solr_ver }}/bin creates=/etc/rc.d/init.d/solr
+  command: bash ./install_solr_service.sh /tmp/solr-{{ solr_ver }}.tgz -N chdir=/tmp/solr-{{ solr_ver }}/bin creates=/etc/rc.d/init.d/solr
   when: solr_dir.stat.exists == False
 
 - name: start solr
