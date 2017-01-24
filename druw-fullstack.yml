@@ -22,5 +22,5 @@
     - { role: postgresql, become: yes }
     - { role: tomcat }
     - { role: fedora }
-    - { role: solr }
+    - { role: solr, tags: ['solr'] }
     - { role: apache, tags: ['apache'] }

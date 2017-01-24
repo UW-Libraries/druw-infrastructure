@@ -30,16 +30,16 @@
 #    - passenger-memory-stats
 #    - passenger-status
 
+- name: install passenger-install-apache2-module
+  become: yes
+  shell: passenger-install-apache2-module --auto creates=/usr/lib64/ruby/gems/2.3.0/gems/passenger-{{ passenger_ver }}/buildout/apache2/mod_passenger.so
+
 - name: symlink mod_passenger.so to apache modules dir
   become: yes
   file: 
     src: /usr/lib64/ruby/gems/2.3.0/gems/passenger-{{ passenger_ver }}/buildout/apache2/mod_passenger.so
     dest: /usr/lib64/httpd/modules/mod_passenger.so
     state: link
-
-- name: install passenger-install-apache2-module
-  become: yes
-  shell: passenger-install-apache2-module --auto creates=/usr/lib64/ruby/gems/2.3.0/gems/passenger-{{ passenger_ver }}/buildout/apache2/mod_passenger.so
 
 - name: generate passenger.conf file
   become: yes

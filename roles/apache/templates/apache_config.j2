@@ -1,13 +1,13 @@
 <VirtualHost *:80>
 ServerName {{ server_name }}
 # !!! Be sure to point DocumentRoot to 'public'!
-DocumentRoot {{ druw_home }}/current/public
+DocumentRoot {{ druw_home }}/public
 # allows forward slashes for IIIF
 AllowEncodedSlashes NoDecode
 # uses xsendfile for browser downloads
 XSendFile on
-XSendFilePath {{ druw_home }}/derivatives
-  <Directory {{ druw_home }}/current/public>
+XSendFilePath {{ druw_home }}/tmp/derivatives
+  <Directory {{ druw_home }}/public>
         # MultiViews must be turned off.
         Options -MultiViews
         # Uncomment this if you're on Apache >= 2.4:
