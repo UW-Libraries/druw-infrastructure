@@ -48,11 +48,12 @@
 - name: run rake db:migrate here too.
   command: "cd {{ druw_home }} && RAILS_ENV=production bundle exec rake db:migrate"
 
-- name: kludge local_rules import
-  replace:
-    dest: "{{ druw_home }}/app/assets/stylesheets/application.css"
-    regexp: 'local\_rules'
-    replace: '{{ druw_home }}/app/assets/stylesheets/local_rules.scss'
+# Should no longer be necessary
+#- name: kludge local_rules import
+#  replace:
+#    dest: "{{ druw_home }}/app/assets/stylesheets/application.css"
+#    regexp: 'local\_rules'
+#    replace: '{{ druw_home }}/app/assets/stylesheets/local_rules.scss'
 
 - name: precompile assets
   command: "cd {{ druw_home }} && RAILS_ENV=production bundle exec rake assets:precompile"
