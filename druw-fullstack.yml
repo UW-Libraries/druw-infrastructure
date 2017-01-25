@@ -29,7 +29,7 @@
     - { role: druw_admin_prod }
     - { role: redis, become: yes }
     #- { role: ffmpeg, tags: ffmpeg }
-    - { role: postgresql, become: yes }
+    - { role: postgresql, become: yes, tags: ['postgres'] }
     - { role: tomcat }
     - { role: fedora, tags: ['fedora'] }
     - { role: solr, tags: ['solr'] }
