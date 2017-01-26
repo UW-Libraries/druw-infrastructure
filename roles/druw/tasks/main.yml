@@ -21,7 +21,20 @@
 
   - name: install rails
     become: true
-    gem: name=rails version="{{ rails_version }}" user_install=no
+    gem: name=rails version={{ rails_version }} user_install=no
+
+  - name: Remove flipflop gem from main cache
+    become: yes
+    shell: "rm -rf /usr/lib64/ruby/gems/2.3.0/bundler/gems/{{ item }}-*"
+    with_items:
+      - flipflop
+      - sufia
+                                            
+  - name: Remove flipflop gem from user cache 
+    shell: "rm -rf /home/vagrant/.bundle/cache/git/{{ item }}-*"
+    with_items:
+      - flipflop
+      - sufia
 
   - name: Bundle install
     #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
@@ -39,14 +52,3 @@
           class Application < Rails::Application
             config.web_console.whitelisted_ips = '10.0.2.2'
           end
-
-#  - name: Copy all templates in config file
-#    command: "cp {{ druw_home }}/config/{{ item.src }} {{ druw_home }}/config/{{ item.dest }}"
-#    with_items:
-#        - { src: 'analytics.yml.template', dest: 'analytics.yml' }
-#        - { src: 'blacklight.yml.template', dest: 'blacklight.yml' }
-#        - { src: 'database.yml.template', dest: 'database.yml' }
-#        - { src: 'fedora.yml.template', dest: 'fedora.yml' }
-#        - { src: 'redis.yml.template', dest: 'redis.yml' }
-#        - { src: 'solr.yml.template', dest: 'solr.yml' }
-#        - { src: 'tinymce.yml.template', dest: 'tinymce.yml' }

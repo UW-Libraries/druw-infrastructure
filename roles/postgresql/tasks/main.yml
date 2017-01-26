@@ -7,30 +7,48 @@
       - postgresql-devel
       - python-psycopg2
 
+  - name: Add postgresql gem to gemfile
+    lineinfile: "dest={{ druw_home }}/Gemfile line=\"gem 'pg'\""
+
+  - name: Remove flipflop gem from main cache
+    become: yes
+    shell: "rm -rf /usr/lib64/ruby/gems/2.3.0/bundler/gems/{{ item }}-*"
+    with_items:
+      - flipflop
+      - sufia
+                                            
+  - name: Remove flipflop gem from user cache 
+    shell: "rm -rf /home/vagrant/.bundle/cache/git/{{ item }}-*"
+    with_items:
+      - flipflop
+      - sufia
+
+  - name: Install postgresql gem 
+    command: "cd {{ druw_home }} && bundle install"
+
   - name: initdb
     action: shell creates=/var/lib/pgsql/data/postgresql.conf postgresql-setup initdb
 
   - name: start postgresql service
     service: name=postgresql state=started enabled=true
 
-  #- name: replace pg_hba.conf
-  #  template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/data/pg_hba.conf
-  #  notify: restart postgresql
-
-  - name: Check that database is created
-    become_user: postgres
-    postgresql_db: name={{ db_name }} owner={{ db_user }}
-
   - name: Create postgres db user
     become_user: postgres
     postgresql_user:
-      db: "{{ db_name }}" 
       name: "{{ db_user }}"
       password: "{{ db_pwd }}"
+
+  - name: Create fcrepo db
+    become_user: postgres
+    postgresql_db: name={{ db_name }} owner={{ db_user }}
 
   - name: Check that user does not have unnecessary privilege
     become_user: postgres
     postgresql_user: name={{ db_user }} role_attr_flags=NOSUPERUSER,NOCREATEDB
+
+  - name: replace pg_hba.conf
+    template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/data/pg_hba.conf
+    notify: restart postgresql
 
   - name: update druw's config/database.yml
     template: src=database.yml.j2 dest={{ druw_home }}/config/database.yml

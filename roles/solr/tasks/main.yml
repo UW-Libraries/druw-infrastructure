@@ -18,7 +18,7 @@
 
 - name: install solr as a service using script
   become: yes
-  command: bash ./install_solr_service.sh /tmp/solr-{{ solr_ver }}.tgz -N chdir=/tmp/solr-{{ solr_ver }}/bin creates=/etc/rc.d/init.d/solr
+  command: bash ./install_solr_service.sh /tmp/solr-{{ solr_ver }}.tgz -n chdir=/tmp/solr-{{ solr_ver }}/bin creates=/etc/rc.d/init.d/solr
   when: solr_dir.stat.exists == False
 
 - name: start solr
@@ -51,15 +51,9 @@
     - "schema.xml"
     - "solrconfig.xml"
 
+- name: Replace config/solr.yml
+  template: src=solr.yml.j2 dest={{ druw_home }}/config/solr.yml
+
 - name: restart solr
   become: yes
   service: name=solr enabled=yes state=restarted
-
-#- name: Precompile for production
-#  become: yes
-  #become_user: solr
-#  command: "cd /var/druw && RAILS_ENV=production bundle exec rake assets:precompile"
-  #command: "touch /var/druw/blah"
-  #args:
-  #  chdir: "/var/druw"
-#  tags: precompile
