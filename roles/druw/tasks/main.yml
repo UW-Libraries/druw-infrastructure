@@ -37,7 +37,7 @@
       - sufia
 
   - name: Bundle install
-    #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
+    #command: "bundle install --path vendor/bundle chdir={{ druw_home }} creates={{ druw_home }}/vendor/bundle"
     command: "bundle install chdir={{ druw_home }}" 
 
   - name: Rake db

@@ -17,7 +17,7 @@
 
 - name: make fedora data dir
   become: yes
-  file: owner=tomcat group=tomcat state=directory path={{ application_home }}/fedora-data
+  file: owner=tomcat group=tomcat state=directory path={{ druw_home }}/fedora-data
 
 - name: create tomcat config and java options
   become: yes

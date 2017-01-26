@@ -24,7 +24,7 @@ and you should see 'centos/7' listed
 ## Copy vars.yml.template to vars.yml.
 
 `cp vars.yml.template vars.yml`   
-Edit application_home if you want it to install in someplace other than /home/vagrant/sufia
+Edit druw_home if you want it to install in someplace other than /home/vagrant/sufia
 
 ## Start your vagrant box
 `vagrant up --provider virtualbox`
@@ -57,7 +57,7 @@ https://github.com/projecthydra/sufia/wiki/Sufia-Management-Guide
 
  - First create a user from your browser at localhost:3000
  - Open another terminal and vagrant ssh in: `vagrant ssh `
- - Go to your application_home: `cd [yourapplicationhome]`
+ - Go to your druw_home: `cd [yourdruwhome]`
  - Start a rails console: `RAILS_ENV=development bundle exec rails c`
  - Search or scroll down to "Adding an admin user" in that github page mentioned above.
  - Follow those directions.
