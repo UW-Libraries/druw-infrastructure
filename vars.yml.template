@@ -3,4 +3,5 @@ fits_version: 0.8.5
 install_path: /usr/local/bin
 ansible_target: localhost
 #ansible_target: demoserver
+rails_version: 4.2.7.1
 config_path: "{{ druw_home }}/config" 

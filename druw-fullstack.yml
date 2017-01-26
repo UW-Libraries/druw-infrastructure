@@ -11,6 +11,7 @@
 
   handlers:
     - name: restart postgresql
+      become: yes
       service: name=postgresql state=restarted
 
   tasks:

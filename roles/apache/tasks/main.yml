@@ -56,7 +56,8 @@
 #    replace: '{{ druw_home }}/app/assets/stylesheets/local_rules.scss'
 
 - name: precompile assets
-  command: "cd {{ druw_home }} && RAILS_ENV=production bundle exec rake assets:precompile"
+  become: yes
+  shell: "cd {{ druw_home }} && RAILS_ENV=production bundle exec rake assets:precompile"
 
 - name: change owner to apache
   become: yes
