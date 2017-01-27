@@ -7,25 +7,6 @@
       - postgresql-devel
       - python-psycopg2
 
-  - name: Add postgresql gem to gemfile
-    lineinfile: "dest={{ druw_home }}/Gemfile line=\"gem 'pg'\""
-
-  #- name: Remove flipflop gem from main cache
-  #  become: yes
-  #  shell: "rm -rf /usr/lib64/ruby/gems/2.3.0/bundler/gems/{{ item }}-*"
-  #  with_items:
-  #    - flipflop
-  #    - sufia
-                                            
-  #- name: Remove flipflop gem from user cache 
-  #  shell: "rm -rf /home/vagrant/.bundle/cache/git/{{ item }}-*"
-  #  with_items:
-  #    - flipflop
-  #    - sufia
-
-  - name: Install postgresql gem 
-    command: "cd {{ druw_home }} && bundle update pg"
-
   - name: initdb
     action: shell creates=/var/lib/pgsql/data/postgresql.conf postgresql-setup initdb
 
@@ -49,6 +30,28 @@
   - name: replace pg_hba.conf
     template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/data/pg_hba.conf
     notify: restart postgresql
+
+  - name: restart postgresql
+    service: name=postgresql state=restarted
+
+  - name: Add postgresql gem to gemfile
+    lineinfile: "dest={{ druw_home }}/Gemfile line=\"gem 'pg'\""
+
+  #- name: Remove flipflop gem from main cache
+  #  become: yes
+  #  shell: "rm -rf /usr/lib64/ruby/gems/2.3.0/bundler/gems/{{ item }}-*"
+  #  with_items:
+  #    - flipflop
+  #    - sufia
+                                            
+  #- name: Remove flipflop gem from user cache 
+  #  shell: "rm -rf /home/vagrant/.bundle/cache/git/{{ item }}-*"
+  #  with_items:
+  #    - flipflop
+  #    - sufia
+
+  - name: Install postgresql gem 
+    shell: "cd {{ druw_home }} && bundle install"
 
   - name: update druw's config/database.yml
     template: src=database.yml.j2 dest={{ druw_home }}/config/database.yml

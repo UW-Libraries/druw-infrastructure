@@ -1,6 +1,6 @@
 ---
-  - name: Add hydra-role-management gem to Gemfile
-    lineinfile: "dest={{ druw_home }}/Gemfile line=\"gem 'hydra-role-management'\""
+  #- name: Add hydra-role-management gem to Gemfile
+  #  lineinfile: "dest={{ druw_home }}/Gemfile line=\"gem 'hydra-role-management'\""
 
   #- name: Remove flipflop gem from main cache
   #  become: yes
@@ -15,19 +15,20 @@
   #    - flipflop
   #    - sufia
 
-  - name: Bundle install
-    become: yes
-    command: "bundle update hydra-role-management chdir={{ druw_home }}"
+  #- name: Bundle install
+  #  become: yes
+  #  command: "bundle install chdir={{ druw_home }}"
+  #  command: "bundle update hydra-role-management chdir={{ druw_home }}"
 
   - name: Check if admin users role has been created
     stat: path="{{ druw_home }}/db/migrate*_user_roles.rb"
     register: admin_user_role
 
-  - name: Copy devise.rb.template to devise.rb
-    command: "cp {{ druw_home }}/config/initializers/devise.rb.template {{ druw_home}}/config/initializers/devise.rb creates={{ druw_home }}/config/initializers/devise.rb"
+  #- name: Copy devise.rb.template to devise.rb
+  #  command: "cp {{ druw_home }}/config/initializers/devise.rb.template {{ druw_home}}/config/initializers/devise.rb creates={{ druw_home }}/config/initializers/devise.rb"
 
-  - name: Copy devise secret key into devise.rb
-    lineinfile: "dest={{ druw_home }}/config/initializers/devise.rb insertbefore='end' line={{ devise_secret }}"
+  #- name: Copy devise secret key into devise.rb
+  #  lineinfile: "dest={{ druw_home }}/config/initializers/devise.rb insertbefore='end' line={{ devise_secret }}"
 
   - name: Set up admin users role
     command: "rails generate roles chdir={{ druw_home }}"
