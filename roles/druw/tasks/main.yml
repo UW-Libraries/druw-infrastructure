@@ -17,24 +17,11 @@
 
   - name: install ruby
     become: true
-    yum: name=https://github.com/feedforce/ruby-rpm/releases/download/2.3.1/ruby-2.3.1-1.el7.centos.x86_64.rpm
+    yum: name=https://github.com/feedforce/ruby-rpm/releases/download/{{ ruby_version }}/ruby-{{ ruby_version }}-1.el7.centos.x86_64.rpm
 
   - name: install rails
     become: true
     gem: name=rails version={{ rails_version }} user_install=no
-
-  - name: Remove flipflop gem from main cache
-    become: yes
-    shell: "rm -rf /usr/lib64/ruby/gems/2.3.0/bundler/gems/{{ item }}-*"
-    with_items:
-      - flipflop
-      - sufia
-                                            
-  - name: Remove flipflop gem from user cache 
-    shell: "rm -rf /home/vagrant/.bundle/cache/git/{{ item }}-*"
-    with_items:
-      - flipflop
-      - sufia
 
   - name: Bundle install
     #command: "bundle install --path vendor/bundle chdir={{ druw_home }} creates={{ druw_home }}/vendor/bundle"
