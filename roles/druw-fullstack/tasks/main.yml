@@ -1,0 +1,72 @@
+---
+  - name: Install hyrax dependencies
+    become: yes
+    yum: pkg={{ item }} state=latest
+    with_items:
+      - clamav
+      - coreutils
+      - gcc-c++
+      - git
+      - GraphicsMagick
+      - ImageMagick-devel
+      - libreoffice-headless
+      - libreoffice
+      - nodejs
+      - poppler-utils
+      - sqlite-devel
+
+  - name: install ruby
+    become: true
+    yum: name=https://github.com/feedforce/ruby-rpm/releases/download/{{ ruby_version }}/ruby-{{ ruby_version }}-1.el7.centos.x86_64.rpm
+
+  - name: install rails
+    become: true
+    gem: name=rails version={{ rails_version }} user_install=no
+
+  - name: Bundle install
+    #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
+    command: "bundle install chdir={{ application_home }}" 
+
+
+  - name: devise.rb
+    become: yes
+    lineinfile:
+      #path: /var/hyrax/config/initializers/devise.rb'
+      dest: "{{ application_home }}/config/initializers/devise.rb"
+      regexp: '^  # config.secret_key'
+      line: "  config.secret_key = '{{ devise_secret }}'"
+      backrefs: yes
+
+  - name: Add default secret to secrets.yml
+    become: yes
+    lineinfile:
+      dest: "{{ application_home }}/config/secrets.yml"
+      state: present
+      regexp: '<%= ENV\["SECRET_KEY_BASE"\] %>'
+      line: "{{ rails_secret }}"
+      backrefs: yes
+
+  - name: Add default roles to config/role_map.yml
+    become: yes
+    blockinfile:
+      dest: "{{ application_home }}/config/role_map.yml"
+      insertafter: '  # Add roles for users here.'
+      content: |2
+          admin_policy_object_editor:
+            - archivist1@example.com
+          researcher:
+            - archivist1@example.com
+            - researcher1@example.com
+
+  - name: Rake db
+    command: "bundle exec rake db:migrate RAILS_ENV=production chdir={{ application_home }}"
+
+  - name: whitelist the 10.0.2.2 network space in the Web Console config
+    tags: whitelist
+    blockinfile:
+      dest: "{{ application_home }}/config/environments/development.rb"
+      insertbefore: "end"
+      block: |2
+          class Application < Rails::Application
+            config.web_console.whitelisted_ips = '10.0.2.2'
+          end

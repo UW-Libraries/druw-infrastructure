@@ -17,15 +17,16 @@
 
 - name: make fedora data dir
   become: yes
-  file: owner=tomcat group=tomcat state=directory path={{ druw_home }}/fedora-data
+  file: owner=tomcat group=tomcat state=directory path={{ application_home }}/fedora-data
 
 - name: create tomcat config and java options
   become: yes
   template: src=tomcat.conf.j2 dest=/etc/tomcat/tomcat.conf backup=yes
 
 - name: change fedora.yml prod port to 8080
+  become: yes
   replace:
-    dest: "{{ druw_home }}/config/fedora.yml"
+    dest: "{{ application_home }}/config/fedora.yml"
     regexp: '127\.0\.0\.1:8983\/fedora\/rest'
     replace: '127.0.0.1:8080/fedora/rest'
 

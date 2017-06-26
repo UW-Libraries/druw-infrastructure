@@ -8,6 +8,8 @@
     - httpd-devel
     - libcurl-devel
     - mod_xsendfile
+    - openssl
+    - openssl-devel
 
 - name: create apache vhosts file
   become: yes
@@ -32,37 +34,34 @@
 
 - name: install passenger-install-apache2-module
   become: yes
-  shell: passenger-install-apache2-module --auto creates=/usr/lib64/ruby/gems/2.3.0/gems/passenger-{{ passenger_ver }}/buildout/apache2/mod_passenger.so
+  shell: passenger-install-apache2-module --auto creates=/usr/lib64/ruby/gems/2.4.0/gems/passenger-{{ passenger_ver }}/buildout/apache2/mod_passenger.so
 
 - name: symlink mod_passenger.so to apache modules dir
   become: yes
   file: 
-    src: /usr/lib64/ruby/gems/2.3.0/gems/passenger-{{ passenger_ver }}/buildout/apache2/mod_passenger.so
+    src: /usr/lib64/ruby/gems/2.4.0/gems/passenger-{{ passenger_ver }}/buildout/apache2/mod_passenger.so
     dest: /usr/lib64/httpd/modules/mod_passenger.so
     state: link
 
 - name: generate passenger.conf file
   become: yes
-  shell: passenger-install-apache2-module --snippet > /etc/httpd/conf.d/passenger.conf
+  shell: passenger-install-apache2-module --snippet > /etc/httpd/conf.modules.d/passenger.conf
 
 - name: run rake db:migrate here too.
-  command: "cd {{ druw_home }} && RAILS_ENV=production bundle exec rake db:migrate"
-
-# Should no longer be necessary
-#- name: kludge local_rules import
-#  replace:
-#    dest: "{{ druw_home }}/app/assets/stylesheets/application.css"
-#    regexp: 'local\_rules'
-#    replace: '{{ druw_home }}/app/assets/stylesheets/local_rules.scss'
+  command: "cd {{ application_home }} && RAILS_ENV=production bundle exec rake db:migrate"
 
 - name: precompile assets
   become: yes
-  shell: "cd {{ druw_home }} && RAILS_ENV=production bundle exec rake assets:precompile"
+  shell: "cd {{ application_home }} && RAILS_ENV=production bundle exec rake assets:precompile"
+
+#- name: disable selinux
+#  selinux:
+#    state: disabled
 
 - name: change owner to apache
   become: yes
   file:
-    path: "{{ druw_home }}"
+    path: "{{ application_home }}"
     recurse: yes
     owner: apache
 

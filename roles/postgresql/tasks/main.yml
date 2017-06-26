@@ -35,23 +35,10 @@
     service: name=postgresql state=restarted
 
   - name: Add postgresql gem to gemfile
-    lineinfile: "dest={{ druw_home }}/Gemfile line=\"gem 'pg'\""
-
-  #- name: Remove flipflop gem from main cache
-  #  become: yes
-  #  shell: "rm -rf /usr/lib64/ruby/gems/2.3.0/bundler/gems/{{ item }}-*"
-  #  with_items:
-  #    - flipflop
-  #    - sufia
-                                            
-  #- name: Remove flipflop gem from user cache 
-  #  shell: "rm -rf /home/vagrant/.bundle/cache/git/{{ item }}-*"
-  #  with_items:
-  #    - flipflop
-  #    - sufia
+    lineinfile: "dest={{ application_home }}/Gemfile line=\"gem 'pg'\""
 
   - name: Install postgresql gem 
-    shell: "cd {{ druw_home }} && bundle install"
+    shell: "cd {{ application_home }} && bundle install"
 
-  - name: update druw's config/database.yml
-    template: src=database.yml.j2 dest={{ druw_home }}/config/database.yml
+  - name: update application's config/database.yml
+    template: src=database.yml.j2 dest={{ application_home }}/config/database.yml

@@ -33,13 +33,13 @@
 - name: copy sufia schema.xml and solrconfig.xml to solr
   become: yes
   copy:
-    src: "{{ druw_home }}/solr/config/{{ item }}"
+    src: "{{ application_home }}/solr/config/{{ item }}"
     dest: "/var/solr/data/{{ solr_core }}/conf/{{ item }}"
     remote_src: True
   with_items:
     - "schema.xml"
     - "solrconfig.xml"
-  tags: druw_solr_configs
+  tags: application_solr_configs
 
 - name: Change owner of schema.xml and solrconfig.xml
   become: yes
@@ -52,7 +52,8 @@
     - "solrconfig.xml"
 
 - name: Replace config/solr.yml
-  template: src=solr.yml.j2 dest={{ druw_home }}/config/solr.yml
+  become: yes
+  template: src=solr.yml.j2 dest={{ application_home }}/config/solr.yml
 
 - name: restart solr
   become: yes

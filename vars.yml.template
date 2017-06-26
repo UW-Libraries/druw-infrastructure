@@ -1,9 +1,8 @@
-druw_home: /home/vagrant/druw
-fits_version: 0.8.5
+application_home: /home/vagrant/druw
+fits_version: 1.0.5
 install_path: /usr/local/bin
 ansible_target: localhost
 #ansible_target: demoserver
-#rails_version: 4.2.7.1
 ruby_version: 2.4.1
 rails_version: 5.0.1
-config_path: "{{ druw_home }}/config" 
+config_path: "{{ application_home }}/config" 

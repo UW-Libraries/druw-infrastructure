@@ -24,16 +24,16 @@
     gem: name=rails version={{ rails_version }} user_install=no
 
   - name: Bundle install
-    #command: "bundle install --path vendor/bundle chdir={{ druw_home }} creates={{ druw_home }}/vendor/bundle"
-    command: "bundle install chdir={{ druw_home }}" 
+    #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
+    command: "bundle install --without production chdir={{ application_home }}" 
 
   - name: Rake db
-    command: "bundle exec rake db:migrate RAILS_ENV=development chdir={{ druw_home }}  creates={{ druw_home }}/db/schema.rb"
+    command: "bundle exec rake db:migrate RAILS_ENV=development chdir={{ application_home }}  creates={{ application_home }}/db/schema.rb"
 
   - name: whitelist the 10.0.2.2 network space in the Web Console config
     tags: whitelist
     blockinfile:
-      dest: "{{ druw_home }}/config/environments/development.rb"
+      dest: "{{ application_home }}/config/environments/development.rb"
       insertbefore: "end"
       block: |2
           class Application < Rails::Application
