@@ -27,8 +27,16 @@
     #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
     command: "bundle install --without production chdir={{ application_home }}" 
 
+  - name: Check if admin users role has been created
+    stat: path="{{ application_home }}/db/migrate*_user_roles.rb"
+    register: admin_user_role
+
+  - name: Generate admin role
+    command: "rails generate roles chdir={{ application_home }}"
+    when: admin_user_role.stat.exists == False
+
   - name: Rake db
-    command: "bundle exec rake db:migrate RAILS_ENV=development chdir={{ application_home }}  creates={{ application_home }}/db/schema.rb"
+    command: "bundle exec rails db:migrate RAILS_ENV=development chdir={{ application_home }}"
 
   - name: whitelist the 10.0.2.2 network space in the Web Console config
     tags: whitelist

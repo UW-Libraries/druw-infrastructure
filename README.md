@@ -55,7 +55,7 @@ Edit application_home if you want it to install in someplace other than /home/va
 ## Copy config/initializers/devise.rb.template to config/initializers/devise.rb
     cp ~/druw/config/initializers/devise.rb.template ~/druw/config/initializers/devise.rb
 
-## Change to vagrant sync dir and run ansible playbook for druw.yml
+## Change to vagrant sync dir and run ansible playbook for development.yml
     cd /vagrant   
     ansible-playbook -i inventory development.yml
 
@@ -74,8 +74,11 @@ Edit application_home if you want it to install in someplace other than /home/va
 * Create a default admin set. You only need to do this step ONCE when you first create your new VM:
     `rails hyrax:default_admin_set:create`
 
+* Generate a work type. You only need to do this step ONCE when you first create your new VM:
+    `rails generate hyrax:work Generic_Work`
+
 * Start development rails server   
-    `rails server -b 0.0.0.0`
+    `rails server -p 3000 -b 0.0.0.0`
 
 When you start up DRUW in the future, you will only need to start up Solr, FCrepo, and Rails. You do NOT need to recreate the default admin set.
 
