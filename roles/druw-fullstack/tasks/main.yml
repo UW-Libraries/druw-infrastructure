@@ -56,7 +56,11 @@
             - researcher1@example.com
 
   - name: Remove Spring gem
-    command: "bin/spring binstub --remove --all chdir={{ application_home }} removes={{ application_home }}/bin/spring"
+    #command: "bin/spring binstub --remove --all chdir={{ application_home }} removes={{ application_home }}/bin/spring"
+    command: "bin/spring binstub --remove --all"  
+    args:
+      chdir: "{{ application_home }}"
+      removes: "{{ application_home }}/bin/spring"
 
   - name: Generate admin role
     command: "rails generate roles chdir={{ application_home }} arg1"
