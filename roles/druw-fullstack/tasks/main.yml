@@ -27,7 +27,6 @@
     #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
     command: "bundle install chdir={{ application_home }}" 
 
-
   - name: devise.rb
     become: yes
     lineinfile:
@@ -39,12 +38,10 @@
 
   - name: Add default secret to secrets.yml
     become: yes
-    lineinfile:
-      dest: "{{ application_home }}/config/secrets.yml"
-      state: present
+    replace:
+      path: "{{ application_home }}/config/secrets.yml"
       regexp: '<%= ENV\["SECRET_KEY_BASE"\] %>'
-      line: "{{ rails_secret }}"
-      backrefs: yes
+      replace: "{{ rails_secret }}"
 
   - name: Add default roles to config/role_map.yml
     become: yes
@@ -58,8 +55,20 @@
             - archivist1@example.com
             - researcher1@example.com
 
+  - name: Remove Spring gem
+    command: "bin/spring binstub --remove --all chdir={{ application_home }} removes={{ application_home }}/bin/spring"
+
+  - name: Generate admin role
+    command: "rails generate roles chdir={{ application_home }} arg1"
+    args:
+      creates: "{{ application_home }}/db/migrate/*_user_roles.rb"
+
   - name: Rake db
-    command: "bundle exec rake db:migrate RAILS_ENV=production chdir={{ application_home }}"
+    command: "bundle exec rails db:migrate RAILS_ENV=production chdir={{ application_home }}"
+
+  - name: Do a bad thing
+    command: setenforce 0
+    run_once: true
 
   - name: whitelist the 10.0.2.2 network space in the Web Console config
     tags: whitelist

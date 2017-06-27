@@ -6,8 +6,8 @@
     - vars.yml
     - private.yml
 
-  #environment:
-  #  SECRET_KEY_BASE: "{{ rails_secret }}"
+  environment:
+    SECRET_KEY_BASE: "{{ rails_secret }}"
 
   #handlers:
   #  - name: restart postgresql
@@ -26,8 +26,8 @@
 
   roles:
     - { role: fits, become: yes }
+    - { role: druw-fullstack, become: yes }
     - { role: postgresql, become: yes, tags: ['postgres'] }
-    - { role: druw-fullstack }
     - { role: redis, become: yes }
     - { role: tomcat }
     - { role: fedora, tags: ['fedora'] }
