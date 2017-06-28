@@ -103,7 +103,7 @@ Change the values in private.yml
 
 ### Start Up DRUW for the First Time
 
- You will have to start the following commands manually. You will probably also have to hit enter to return your prompt after each service starts up.   
+ Run the following commands.   
 
 * `cd /var/druw`
 
