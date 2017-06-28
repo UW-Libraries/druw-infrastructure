@@ -63,7 +63,7 @@
       removes: "{{ application_home }}/bin/spring"
 
   - name: Generate admin role
-    command: "rails generate roles chdir={{ application_home }} arg1"
+    command: "rails generate roles chdir={{ application_home }}"
     args:
       creates: "{{ application_home }}/db/migrate/*_user_roles.rb"
 
