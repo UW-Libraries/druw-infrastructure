@@ -25,7 +25,7 @@
 
   - name: Bundle install
     #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
-    command: "bundle install chdir={{ application_home }}" 
+    command: "bundle install --without production chdir={{ application_home }}" 
 
   - name: devise.rb
     become: yes
@@ -68,7 +68,7 @@
       creates: "{{ application_home }}/db/migrate/*_user_roles.rb"
 
   - name: Rake db
-    command: "bundle exec rails db:migrate RAILS_ENV=production chdir={{ application_home }}"
+    command: "bundle exec rails db:migrate chdir={{ application_home }}"
 
   - name: Do a bad thing
     command: setenforce 0
