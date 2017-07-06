@@ -77,7 +77,7 @@ If the git clone below doesn't work, you might need to do either of the followin
     `rails hyrax:default_admin_set:create`
 
 * Generate a work type. You only need to do this step ONCE when you first create your new VM:
-    `rails generate hyrax:work Generic_Work`
+    `rails generate hyrax:work GenericWork`
 
 * Start development rails server   
     `rails server -p 3000 -b 0.0.0.0`
@@ -111,7 +111,7 @@ Change the values in private.yml
     `sudo rails hyrax:default_admin_set:create RAILS_ENV=production`
 
 * Generate a work type. You only need to do this step ONCE when you first create your new VM:
-    `sudo rails generate hyrax:work Generic_Work RAILS_ENV=production`
+    `sudo rails generate hyrax:work GenericWork RAILS_ENV=production`
 
 * Restart apache   
     `sudo systemctl restart httpd`
