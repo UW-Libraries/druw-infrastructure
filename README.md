@@ -22,7 +22,7 @@ and you should see 'centos/7' listed
     git clone git@bitbucket.org:uwlib/druw-infrastructure.git
     cd druw-infrastructure
 
-### Copy vars.yml.template to vars.yml.
+### Copy *.yml.template to *.yml.
     cp vars.yml.template vars.yml
     cp private.yml.template private.yml
 
