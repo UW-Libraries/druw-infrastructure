@@ -19,7 +19,7 @@ On Windows, you might be given a choice between libvirt or virtualbox. Choose *v
 and you should see 'centos/7' listed
 
 ### Clone this repo
-    git clone git@bitbucket.org:uwlib/druw-infrastructure.git
+    git clone git@github.com:UW-Libraries/druw-infrastructure.git
     cd druw-infrastructure
 
 ### Copy *.yml.template to *.yml.
