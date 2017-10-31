@@ -1,6 +1,6 @@
 # Druw infrastructure
 
-This repository sets a up a centos 7 based infrastructure for a research data repository based on samvera/hyrax (a Ruby/Rails application). It requires separately cloning the [druw repository](https://bitbucket.org/uwlib/druw). It will build either a development or a fullstack environment.
+This repository sets a up a centos 7 based infrastructure for a research data repository based on samvera/hyrax (a Ruby/Rails application). It requires separately cloning the [druw repository](https://github.com/UW-Libraries/druw). It will build either a development or a fullstack environment.
 
 ---
 
@@ -41,7 +41,7 @@ If the git clone below doesn't work, you might need to do either of the followin
 
 1. Rename your private key to `id_rsa`
 
-2. Change its permissions: `chmod 600 [yourprivatekey]`
+2. Change its permissions: `chmod 600 id_rsa`
 
 ### Clone the [druw repo](https://bitbucket.org/uwlib/druw) into wherever you specified application_home to be in vars.yml (Eg. if building a fullstack environment, change to "/var/druw")  
     cd ~   
