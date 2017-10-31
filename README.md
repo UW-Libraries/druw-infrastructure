@@ -45,7 +45,7 @@ If the git clone below doesn't work, you might need to do either of the followin
 
 ### Clone the [druw repo](https://bitbucket.org/uwlib/druw) into wherever you specified application_home to be in vars.yml (Eg. if building a fullstack environment, change to "/var/druw")  
     cd ~   
-    git clone git@bitbucket.org:uwlib/druw.git
+    git clone git@github.com:UW-Libraries/druw.git
 
 ### cd to ~/druw/config, then copy all *.yml.template files to *.yml.
     cd ~/druw/config   
