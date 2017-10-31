@@ -24,6 +24,7 @@ and you should see 'centos/7' listed
 
 ### Copy vars.yml.template to vars.yml.
     cp vars.yml.template vars.yml
+    cp private.yml.template private.yml
 
 Edit application_home if you want it to install in someplace other than /home/vagrant/sufia   
 
