@@ -71,6 +71,9 @@ If the git clone below doesn't work, you might need to do either of the followin
 * Start development solr   
     `bundle exec solr_wrapper -d solr/config/ --collection_name hydra-development &`
 
+  * If solr 7 give you problems, run solr 6 instead  
+    `bundle exec solr_wrapper -d solr/config/ --collection_name hydra-development --version 6.6.1 &`
+
 * Start FCRepo - your fedora project instance   
     `bundle exec fcrepo_wrapper -p 8984 &`
 
