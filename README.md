@@ -68,22 +68,22 @@ If the git clone below doesn't work, you might need to do either of the followin
 
 * `cd /home/vagrant/druw`
 
-* Start development solr   
+* Start development solr:  
     `bundle exec solr_wrapper -d solr/config/ --collection_name hydra-development &`
 
-  * If solr 7 give you problems, run solr 6 instead  
+  * If solr 7 give you problems, run solr 6 instead:  
     `bundle exec solr_wrapper -d solr/config/ --collection_name hydra-development --version 6.6.1 &`
 
-* Start FCRepo - your fedora project instance   
+* Start FCRepo - your fedora project instance:  
     `bundle exec fcrepo_wrapper -p 8984 &`
 
-* Create a default admin set. You only need to do this step ONCE when you first create your new VM:
+* Create a default admin set. You only need to do this step ONCE when you first create your new VM:  
     `rails hyrax:default_admin_set:create`
 
-* Generate a work type. You only need to do this step ONCE when you first create your new VM:
+* Generate a work type. You only need to do this step ONCE when you first create your new VM:  
     `rails generate hyrax:work GenericWork`
 
-* Start development rails server   
+* Start development rails server  
     `rails server -p 3000 -b 0.0.0.0`
 
 When you start up DRUW in the future, you will only need to start up Solr, FCrepo, and Rails. You do NOT need to recreate the default admin set.
