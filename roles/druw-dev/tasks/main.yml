@@ -1,4 +1,8 @@
 ---
+  - name: khanh temp fix for missing http-parser for epel nodejs
+    become: yes
+    yum: pkg=https://kickstart.lib.washington.edu/rpm_repo/druw/7/x86_64/http-parser-2.7.1-3.el7.x86_64.rpm state=present
+
   - name: Install sufia dependencies
     become: yes
     yum: pkg={{ item }} state=latest
@@ -25,7 +29,7 @@
 
   - name: Bundle install
     #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
-    command: "bundle install --without production chdir={{ application_home }}" 
+    command: "bundle install --path vendor/bundle --without production chdir={{ application_home }}" 
 
   - name: Check if admin users role has been created
     stat: path="{{ application_home }}/db/migrate*_user_roles.rb"
