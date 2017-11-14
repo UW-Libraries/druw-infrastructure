@@ -1,6 +1,6 @@
 # Druw infrastructure
 
-This repository sets a up a centos 7 based infrastructure for a research data repository based on samvera/hyrax (a Ruby/Rails application). It requires separately cloning the [druw repository](https://bitbucket.org/uwlib/druw). It will build either a development or a fullstack environment.
+This repository sets a up a centos 7 based infrastructure for a research data repository based on samvera/hyrax (a Ruby/Rails application). It requires separately cloning the [druw repository](https://github.com/UW-Libraries/druw). It will build either a development or a fullstack environment.
 
 ---
 
@@ -19,11 +19,12 @@ On Windows, you might be given a choice between libvirt or virtualbox. Choose *v
 and you should see 'centos/7' listed
 
 ### Clone this repo
-    git clone git@bitbucket.org:uwlib/druw-infrastructure.git
+    git clone git@github.com:UW-Libraries/druw-infrastructure.git
     cd druw-infrastructure
 
-### Copy vars.yml.template to vars.yml.
+### Copy *.yml.template to *.yml.
     cp vars.yml.template vars.yml
+    cp private.yml.template private.yml
 
 Edit application_home if you want it to install in someplace other than /home/vagrant/sufia   
 
@@ -40,11 +41,11 @@ If the git clone below doesn't work, you might need to do either of the followin
 
 1. Rename your private key to `id_rsa`
 
-2. Change its permissions: `chmod 600 [yourprivatekey]`
+2. Change its permissions: `chmod 600 id_rsa`
 
 ### Clone the [druw repo](https://bitbucket.org/uwlib/druw) into wherever you specified application_home to be in vars.yml (Eg. if building a fullstack environment, change to "/var/druw")  
     cd ~   
-    git clone git@bitbucket.org:uwlib/druw.git
+    git clone git@github.com:UW-Libraries/druw.git
 
 ### cd to ~/druw/config, then copy all *.yml.template files to *.yml.
     cd ~/druw/config   
@@ -67,19 +68,22 @@ If the git clone below doesn't work, you might need to do either of the followin
 
 * `cd /home/vagrant/druw`
 
-* Start development solr   
+* Start development solr:  
     `bundle exec solr_wrapper -d solr/config/ --collection_name hydra-development &`
 
-* Start FCRepo - your fedora project instance   
+  * If solr 7 give you problems, run solr 6 instead:  
+    `bundle exec solr_wrapper -d solr/config/ --collection_name hydra-development --version 6.6.1 &`
+
+* Start FCRepo - your fedora project instance:  
     `bundle exec fcrepo_wrapper -p 8984 &`
 
-* Create a default admin set. You only need to do this step ONCE when you first create your new VM:
+* Create a default admin set. You only need to do this step ONCE when you first create your new VM:  
     `rails hyrax:default_admin_set:create`
 
-* Generate a work type. You only need to do this step ONCE when you first create your new VM:
+* Generate a work type. You only need to do this step ONCE when you first create your new VM:  
     `rails generate hyrax:work GenericWork`
 
-* Start development rails server   
+* Start development rails server  
     `rails server -p 3000 -b 0.0.0.0`
 
 When you start up DRUW in the future, you will only need to start up Solr, FCrepo, and Rails. You do NOT need to recreate the default admin set.
