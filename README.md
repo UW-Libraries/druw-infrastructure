@@ -111,10 +111,10 @@ Change the values in private.yml
 
 * `cd /var/druw`
 
-* Create a default admin set. You only need to do this step ONCE when you first create your new VM:
+* Create a default admin set. You only need to do this step ONCE when you first create your new VM:  
     `sudo rails hyrax:default_admin_set:create RAILS_ENV=production`
 
-* Generate a work type. You only need to do this step ONCE when you first create your new VM:
+* Generate a work type. You only need to do this step ONCE when you first create your new VM:  
     `sudo rails generate hyrax:work GenericWork RAILS_ENV=production`
 
 * Restart apache   
