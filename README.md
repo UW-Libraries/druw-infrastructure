@@ -34,8 +34,8 @@ Edit application_home if you want it to install in someplace other than /home/va
 ### ssh into vagrant box
     vagrant ssh
 
-### scp your bitbucket private key into .ssh dir
-    scp [yourbitbucketprivatekey] ~/.ssh
+### scp your github private key into guest OS .ssh dir (command will vary)
+    scp [yourgithubprivatekey] ~/.ssh
 
 If the git clone below doesn't work, you might need to do either of the following:
 
@@ -43,7 +43,7 @@ If the git clone below doesn't work, you might need to do either of the followin
 
 2. Change its permissions: `chmod 600 id_rsa`
 
-### Clone the [druw repo](https://bitbucket.org/uwlib/druw) into wherever you specified application_home to be in vars.yml (Eg. if building a fullstack environment, change to "/var/druw")  
+### Clone the [druw repo](https://github.com/UW-Libraries/druw) into wherever you specified application_home to be in vars.yml (Eg. if building a fullstack environment, change to "/var/druw")  
     cd ~   
     git clone git@github.com:UW-Libraries/druw.git
 
