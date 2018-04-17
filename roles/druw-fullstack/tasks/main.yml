@@ -1,12 +1,21 @@
 ---
+  - name: get the druw app
+    include_tasks: druwgit.yml
+
   - name: khanh temp fix for missing http-parser for epel nodejs
     yum: pkg=https://kickstart.lib.washington.edu/rpm_repo/druw/7/x86_64/http-parser-2.7.1-3.el7.x86_64.rpm state=present
 
+  - name: Install druw.repo for specific rpms
+    become: true
+    template: src=druw.repo.j2 dest=/etc/yum.repos.d/druw.repo
+
   - name: Install hyrax dependencies
-    become: yes
+    become: true
     yum: pkg={{ item }} state=latest
     with_items:
       - clamav
+      - clamav-devel
+      - clamav-update
       - coreutils
       - gcc-c++
       - git
@@ -16,33 +25,51 @@
       - libreoffice
       - nodejs
       - poppler-utils
+      - postgresql
+      - postgresql-server
+      - postgresql-devel
+      - python-psycopg2
       - sqlite-devel
 
   - name: install ruby
     become: true
-    yum: name=https://github.com/feedforce/ruby-rpm/releases/download/{{ ruby_version }}/ruby-{{ ruby_version }}-1.el7.centos.x86_64.rpm
+    #yum: name=https://github.com/feedforce/ruby-rpm/releases/download/{{ ruby_version }}/ruby-{{ ruby_version }}-1.el7.centos.x86_64.rpm
+    yum: name=ruby-{{ ruby_version }}-1.el7.centos.x86_64
 
   - name: install rails
     become: true
     gem: name=rails version={{ rails_version }} user_install=no
 
-  - name: Bundle install
-    #command: "bundle install --path vendor/bundle chdir={{ application_home }} creates={{ application_home }}/vendor/bundle"
-    command: "bundle install --path vendor/bundle --without production chdir={{ application_home }}" 
+  - name: install static ffmpeg
+    become: yes
+    copy:
+      src: ffmpeg-{{ ffmpeg_version }}
+      dest: /usr/bin/ffmpeg
+      owner: root
+      group: root
+      mode: 0755
+      force: yes
 
-  #- name: devise.rb
-  #  become: yes
-  #  lineinfile:
-  #    #path: /var/hyrax/config/initializers/devise.rb'
-  #    dest: "{{ application_home }}/config/initializers/devise.rb"
-  #    regexp: '^  # config.secret_key'
-  #    line: "  config.secret_key = '{{ devise_secret }}'"
-  #    backrefs: yes
+  - name: enable ffmpeg
+    replace:
+      dest: "{{ config_path }}/initializers/hyrax.rb"
+      regexp: '# config.enable_ffmpeg = false'
+      replace: 'config.enable_ffmpeg = true'
+
+  - name: Bundle install
+    command: "bundle install --path vendor/bundle --without production chdir={{ application_home }}" 
 
   - name: Add default secret to secrets.yml
     become: yes
     replace:
       path: "{{ application_home }}/config/secrets.yml"
+      regexp: '<%= ENV\["SECRET_KEY_BASE"\] %>'
+      replace: "{{ rails_secret }}"
+
+  - name: Add default secret to devise.rb
+    become: yes
+    replace:
+      path: "{{ application_home }}/config/initializers/devise.rb"
       regexp: '<%= ENV\["SECRET_KEY_BASE"\] %>'
       replace: "{{ rails_secret }}"
 
@@ -59,7 +86,6 @@
             - researcher1@example.com
 
   - name: Remove Spring gem
-    #command: "bin/spring binstub --remove --all chdir={{ application_home }} removes={{ application_home }}/bin/spring"
     command: "bin/spring binstub --remove --all"  
     args:
       chdir: "{{ application_home }}"
@@ -70,8 +96,8 @@
   #  args:
   #    creates: "{{ application_home }}/db/migrate/*_user_roles.rb"
 
-  - name: Rake db
-    command: "rails db:migrate chdir={{ application_home }}"
+  #- name: Rake db
+  #  command: "rails db:migrate chdir={{ application_home }}"
 
   - name: Do a bad thing
     command: setenforce 0

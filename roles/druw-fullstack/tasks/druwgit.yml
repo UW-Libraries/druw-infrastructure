@@ -1,0 +1,25 @@
+---
+
+- name: install git
+  yum: pkg=git state=present
+
+- name: ensure that the druw directory is empty
+  file: path={{ application_home }}
+        state=absent
+
+- name: create druw install dir
+  file: path={{ application_home }}
+        state=directory
+
+- name: clone druw app into place from git repo
+  git: repo={{ druw_gitrepo }}
+       dest={{ application_home }}
+       force=yes
+       version={{ druw_gitbranch }}
+
+- name: copy all filename.yml.template files to filname.yml
+  shell: cd {{ application_home }}/config ; for f in `ls *.yml.template |rev | cut -d '.' --complement -f 1 |rev`; do cp $f{.template,}; done
+
+- name: Add devise.rb.template to config/initializers
+  template: src=devise.rb.j2 dest={{ application_home }}/config/initializers/devise.rb
+
