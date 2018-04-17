@@ -9,7 +9,7 @@ This repository sets a up a centos 7 based infrastructure for a research data re
  - Virtualbox
 
 ### Install centos 7 virtualbox image
-    vagrant box add centos/7 https://atlas.hashicorp.com/centos/boxes/7
+    vagrant box add centos/7 https://app.vagrantup.com/centos/boxes/7
 
 On Windows, you might be given a choice between libvirt or virtualbox. Choose *virtualbox*.
 
