@@ -1,6 +1,6 @@
 # Druw infrastructure
 
-This repository sets a up a centos 7 based infrastructure for a research data repository based on samvera/hyrax (a Ruby/Rails application). It requires separately cloning the [druw repository](https://github.com/UW-Libraries/druw). It will build either a development or a fullstack environment.
+This repository sets a up a centos 7 based infrastructure for a research data repository based on samvera/hyrax (a Ruby/Rails application). It requires separately cloning the [druw repository](https://github.com/UW-Libraries/druw). It will build either a development or a fullstack (development) environment.
 
 ---
 
@@ -95,13 +95,12 @@ Open a browser and go to http://localhost:3000. The initial load will take a bit
 
 ## For fullstack environment
 
-### Move druw repo to /var
-    sudo mv druw /var
+This will create an instance of druw application that does not allow commits back to the repo.
 
-### Change to vagrant sync dir, copy/edit private.yml.template, and run ansible playbook for fullstack.yml
-    cd /vagrant
+### cd into /vagrant, copy/edit private.yml.template, copy/edit vars-full.yml.template, and run ansible playbook for fullstack.yml
+    cd /vagrant   
     cp private.yml.template private.yml   
-    ansible-playbook -i inventory fullstack.yml
+    ansible-playbook -i inventory fullstack.yml   
 
 Change the values in private.yml
 
@@ -115,7 +114,7 @@ Change the values in private.yml
     `sudo rails hyrax:default_admin_set:create RAILS_ENV=production`
 
 * Generate a work type. You only need to do this step ONCE when you first create your new VM:  
-    `sudo rails generate hyrax:work GenericWork RAILS_ENV=production`
+    `sudo rails generate hyrax:work Work RAILS_ENV=production`
 
 * Restart apache   
     `sudo systemctl restart httpd`
