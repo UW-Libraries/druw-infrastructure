@@ -101,6 +101,7 @@ This will create an instance of the druw application that does not allow commits
 ### cd into /vagrant, copy/edit private.yml.template, copy/edit vars-full.yml.template, and run ansible playbook for fullstack.yml
     cd /vagrant   
     cp private.yml.template private.yml   
+    cp vars-full.template vars-full.yml   
     ansible-playbook -i inventory fullstack.yml   
 
 ### cd to /var/druw/config, then copy all *.yml.template files to *.yml.
@@ -152,42 +153,23 @@ Follow the instructions on the [Hyrax Management Guide](https://github.com/samve
 On a computer with ansible installed
 
 ### Clone druw-infrastructure onto a computer that has ansible installed on it.
-    git clone git@bitbucket.org:uwlib/druw-infrastructure.git
+    git clone git@github.com:UW-Libraries/druw-infrastructure.git
 
-### cd into checked out repo and copy/edit vars.yml.template and private.yml.template
+### cd into druw-infrastructure, copy/edit private.yml.template, copy/edit vars-full.yml.template (change ansible_target to demoserver), and run fullstack.yml playbook
+    cd druw-infrastructure   
+    cp private.yml.template private.yml   
+    cp vars-full.template vars-full.yml
+    ansible-playbook -i inventory --ask-become-pass fullstack.yml
 
- - ```cd druw-infrastructure```
- - ansible_target - change to demoserver
- - application_home - change it to /var/druw
+---
 
 On the demo server
-
-### ssh onto demo server (ssh -A or copy bitbucket key over.)
-
-### Clone the druw repo and move it /var/druw
-    cd ~   
-    git clone git@bitbucket.org:uwlib/druw.git
-    sudo mv druw /var
 
 ### cd to /var/druw/config, then copy all *.yml.template files to *.yml.
     cd /var/druw/config   
     for f in `ls *.yml.template |rev | cut -d '.' --complement -f 1 |rev`; do cp $f{.template,}; done
 
-Edit /var/druw/config/secrets.yml
-
- - In production stanza, add the line ```secret_key_base = 'your key just copied from the private.yml.template"```
- - After this entire thing is built you could generate a secret key if you wanted to replace this ```bundle exec rails secret```
-
-### Copy /var/druw/config/initializers/devise.rb.template to /var/druw/config/initializers/devise.rb
+### Copy/edit /var/druw/config/initializers/devise.rb.template
     cp /var/druw/config/initializers/devise.rb.template /var/druw/config/initializers/devise.rb
 
-Edit /var/druw/config/initializers/devise.rb
-
- - add the line ```config.secret_key = 'your key that you just copied from private.yml.template"```
- - After this entire thing is built you could generate a secret key if you wanted to replace this ```bundle exec rails secret```
-
-On the computer with ansible installed
-
-### Go to druw-infrastructure repo
-
-Run ```ansible-playbook -i inventory --ask-become-pass fullstack.yml```
+### restart httpd, troubleshoot, maybe re-run ansible playbook.
