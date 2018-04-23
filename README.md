@@ -18,6 +18,9 @@ On Windows, you might be given a choice between libvirt or virtualbox. Choose *v
 
 and you should see 'centos/7' listed
 
+---
+
+## For development environment
 ### Clone this repo
     git clone git@github.com:UW-Libraries/druw-infrastructure.git
     cd druw-infrastructure
@@ -43,7 +46,7 @@ If the git clone below doesn't work, you might need to do either of the followin
 
 2. Change its permissions: `chmod 600 id_rsa`
 
-### Clone the [druw repo](https://github.com/UW-Libraries/druw) into wherever you specified application_home to be in vars.yml (Eg. if building a fullstack environment, change to "/var/druw")  
+### Clone the [druw repo](https://github.com/UW-Libraries/druw) into wherever you specified application_home to be in vars.yml 
     cd ~   
     git clone git@github.com:UW-Libraries/druw.git
 
@@ -55,8 +58,6 @@ If the git clone below doesn't work, you might need to do either of the followin
     cp ~/druw/config/initializers/devise.rb.template ~/druw/config/initializers/devise.rb
 
 ---
-
-## For development environment
 
 ### Change to vagrant sync dir and run ansible playbook for development.yml
     cd /vagrant   
@@ -95,14 +96,20 @@ Open a browser and go to http://localhost:3000. The initial load will take a bit
 
 ## For fullstack environment
 
-This will create an instance of druw application that does not allow commits back to the repo.
+This will create an instance of the druw application that does not allow commits back to the repo.
 
 ### cd into /vagrant, copy/edit private.yml.template, copy/edit vars-full.yml.template, and run ansible playbook for fullstack.yml
     cd /vagrant   
     cp private.yml.template private.yml   
     ansible-playbook -i inventory fullstack.yml   
 
-Change the values in private.yml
+### cd to /var/druw/config, then copy all *.yml.template files to *.yml.
+    cd /var/druw/config   
+    for f in `ls *.yml.template |rev | cut -d '.' --complement -f 1 |rev`; do cp $f{.template,}; done
+
+### Copy/edit /var/druw/config/initializers/devise.rb.template
+    cp /var/druw/config/initializers/devise.rb.template /var/druw/config/initializers/devise.rb
+
 
 ### Start Up DRUW for the First Time
 
