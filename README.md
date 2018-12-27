@@ -29,7 +29,7 @@ and you should see 'centos/7' listed
     cp vars.yml.template vars.yml
     cp private.yml.template private.yml
 
-Edit application_home if you want it to install in someplace other than /home/vagrant/sufia   
+Edit application_home if you want it to install in someplace other than /home/vagrant/druw   
 
 ### Start your vagrant box
     vagrant up --provider virtualbox
