@@ -3,7 +3,7 @@
     become: yes
     yum: pkg=https://kickstart.lib.washington.edu/rpm_repo/druw/7/x86_64/http-parser-2.7.1-3.el7.x86_64.rpm state=present
 
-  - name: Install sufia dependencies
+  - name: Install hyrax dependencies
     become: yes
     yum: pkg={{ item }} state=latest
     with_items:
